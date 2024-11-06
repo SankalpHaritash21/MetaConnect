@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Web3 from "web3";
+import { FaWallet } from "react-icons/fa";
 
 const App = () => {
   const [account, setAccount] = useState(null);
@@ -15,25 +16,42 @@ const App = () => {
     }
   };
 
+  const disconnectWallet = () => {
+    setAccount(null);
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen w-full bg-gradient-to-r from-purple-700 via-purple-900 to-black text-white">
-      <div className="text-center space-y-6 p-8 rounded-lg shadow-lg bg-gray-800">
-        {account && account.length > 0 ? (
-          <div className="p-6 rounded-lg bg-green-600 text-black font-semibold text-xl">
-            Connected Account:
-            <div className="flex gap-x-3">
-              <div className="mt-2">Address:</div>
-              <p className="mt-2 break-words">{account[0]}</p>
-            </div>
-          </div>
+    <div className="flex flex-col items-center justify-center min-h-screen w-full bg-gradient-to-r from-purple-800 via-purple-900 to-black text-white font-sans">
+      {/* Project Title */}
+      <h1 className="text-4xl font-bold mb-8 text-white animate-fadeIn">
+        MetaConnect
+      </h1>
+
+      <div className="text-center space-y-8 p-10 rounded-lg shadow-2xl bg-gray-900 bg-opacity-80 transition duration-500 ease-in-out transform hover:scale-105">
+        {!account ? (
+          <>
+            <FaWallet className="text-6xl mx-auto text-purple-400 animate-pulse mb-4" />
+            <button
+              className="border border-white text-white bg-purple-600 rounded-lg px-8 py-4 hover:bg-purple-700 hover:border-purple-400 transition duration-300 ease-in-out transform hover:scale-110 shadow-lg"
+              onClick={connectWallet}
+              disabled={loading}
+            >
+              {loading ? "Connecting..." : "Connect to MetaMask"}
+            </button>
+          </>
         ) : (
-          <button
-            className="border border-white text-white bg-purple-500 rounded-lg px-8 py-4 hover:bg-purple-600 transition duration-300 shadow-lg transform hover:scale-105"
-            onClick={connectWallet}
-            disabled={loading}
-          >
-            {loading ? "Connecting..." : "Connect to MetaMask"}
-          </button>
+          <div className="space-y-4 animate-fadeIn">
+            <div className="bg-green-500 text-gray-800 font-semibold rounded-lg p-6 shadow-lg">
+              <p className="text-xl">Connected Account:</p>
+              <p className="mt-2 break-words text-lg">{account[0]}</p>
+            </div>
+            <button
+              className="border border-red-500 text-red-500 bg-transparent rounded-lg px-8 py-2 hover:bg-red-500 hover:text-white transition duration-300 ease-in-out shadow-lg"
+              onClick={disconnectWallet}
+            >
+              Disconnect
+            </button>
+          </div>
         )}
       </div>
     </div>
